@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import os
 import re
 from playwright.sync_api import sync_playwright
+import time
 
 def read_sgml_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -61,10 +62,6 @@ def remove_front_matter(df):
     df = df[df['document_type'] == "Articles"]
     return df
 
-# df = read_all_sgml_file('/Users/zhushangkai/Desktop/seasonal_liquidity/AER_2024')
-# df = get_pdf_urls(df)
-# df.to_excel("/Users/zhushangkai/Desktop/seasonal_liquidity/AER_2024/whole_list.xlsx", index=False)
-# print(df)
 
 def extract_from_sgml(sgml_directory):
     df = read_all_sgml_file(sgml_directory)
@@ -76,9 +73,13 @@ def clean_title(t):
     t = t.lower()
     t = re.sub(r'[^a-z0-9]+', '-', t)
     return t.strip('-')
+
 def get_pdf(df, save_dir):
     urls = df['pdf_url'].tolist()
     titles = df['title'].tolist()
+    if "local_path" not in df.columns:
+        df["local_path"] = None
+
     file_paths = []
     os.makedirs(save_dir, exist_ok=True)
 
@@ -87,33 +88,88 @@ def get_pdf(df, save_dir):
         ctx = browser.new_context(accept_downloads=True)
         page = ctx.new_page()
 
+        idx = 0
         for pdf_url, pdf_title in zip(urls, titles):
+
             new_title = clean_title(pdf_title)
             file_path = f"{save_dir}/{new_title}.pdf"
 
-            with page.expect_download() as d:
-                # If pdf_url goes straight to the PDF:
-                page.goto(pdf_url, wait_until="networkidle")
+            if os.path.exists(file_path):
+                df.at[idx, "local_path"] = file_path
+                print("Already exists:", file_path)
+                continue
+            else:
+                with page.expect_download() as d:
+                    # If pdf_url goes straight to the PDF:
+                    page.goto(pdf_url, wait_until="networkidle")
 
-            download = d.value
-            download.save_as(file_path)
-            file_paths.append(file_path)
-            print("Saved:", file_path)
+                download = d.value
+                download.save_as(file_path)
+
+                df.at[idx, "local_path"] = file_path
+                print("Saved:", file_path)
+            idx +=1
 
         browser.close()
-    df['local_path'] = file_paths
+
     return df
 
+def chunk_df(df, chunk_size):
+    return [
+        df.iloc[i:i + chunk_size].reset_index(drop=True)
+        for i in range(0, len(df), chunk_size)
+    ]
 
-def full_process(sgml_directory, pdf_directory, output_file_path):
-    df =extract_from_sgml(sgml_directory,)
-    df = get_pdf(df, pdf_directory)
-    print(df)
-    df.to_excel(output_file_path, index = False)
+def full_process(sgml_directory, pdf_directory, output_file_path,
+                 chunk_size=80,
+                 cooldown_between_chunks=1):
 
-full_process("/Users/zhushangkai/Desktop/seasonal_liquidity/AER_2023",
-             "/Users/zhushangkai/Desktop/seasonal_liquidity/AER_2023_articles",
-             "/Users/zhushangkai/Desktop/seasonal_liquidity/AER_2023/whole_lists.xlsx")
+    df = extract_from_sgml(sgml_directory)
+    print(f"Total papers found: {len(df)}")
 
+    if len(df) == 0:
+        print("No papers found.")
+        return
+
+    df_chunks = chunk_df(df, chunk_size)
+    all_results = []
+
+    for k, df_chunk in enumerate(df_chunks, start=1):
+        print(f"\n=== Processing chunk {k}/{len(df_chunks)} "
+              f"({len(df_chunk)} papers) ===")
+
+        # Download PDFs for this chunk
+        chunk_result = get_pdf(df_chunk, pdf_directory)
+
+        # get_pdf may return paths or modify df — adapt as needed
+        if isinstance(chunk_result, list):
+            df_chunk = df_chunk.assign(pdf_path=chunk_result)
+
+        all_results.append(df_chunk)
+
+        # save intermediate progress
+        temp_out = output_file_path.replace(".xlsx", f"_chunk{k}.xlsx")
+        df_chunk.to_excel(temp_out, index=False)
+        print(f"Saved intermediate results to {temp_out}")
+
+        # cooldown between chunks (VERY important for AER)
+        if k < len(df_chunks):
+            print(f"Cooling down {cooldown_between_chunks} seconds...")
+            time.sleep(cooldown_between_chunks)
+
+    # recombine
+    final_df = pd.concat(all_results, ignore_index=True)
+    final_df.to_excel(output_file_path, index=False)
+    print(f"\n✅ Final output written to {output_file_path}")
+
+
+
+# full_process("/Users/zhushangkai/Desktop/winsorization_data/AER_2023_sgml",
+#              "/Users/zhushangkai/Desktop/winsorization_data/AER_2023_articles",
+#              "/Users/zhushangkai/Desktop/winsorization_data/AER_2023_whole_lists.xlsx")
+
+full_process("/Users/zhushangkai/Desktop/winsorization_data/AER_2024_sgml",
+             "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_articles_new",
+             "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_whole_lists.xlsx")
 
 

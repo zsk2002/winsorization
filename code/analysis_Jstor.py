@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 import ast
 
-path = Path("/Users/zhushangkai/Desktop/winsorization/raw data/2b51d731-4b8e-44eb-b7ba-3ca54f2e406c.jsonl.gz")
+path = Path("/Users/zhushangkai/Desktop/winsorization_data/raw data/2b51d731-4b8e-44eb-b7ba-3ca54f2e406c.jsonl.gz")
 
 rows = []
 with gzip.open(path, "rt", encoding="utf-8") as f:
@@ -22,7 +22,7 @@ all_jstor_articles_before_2022 = all_jstor_articles_before_2022.rename(
 )
 
 
-old_path = "/Users/zhushangkai/Desktop/winsorization/AER_2022_articles_and_before/AER_all_articles.txt"
+old_path = "/Users/zhushangkai/Desktop/winsorization_data/AER_2022_articles_and_before/AER_all_articles.txt"
 
 records = []
 with open(old_path, "r", encoding="utf-8") as f:
@@ -67,7 +67,7 @@ is_empirical = ["regression", "methods", "Empirical Analysis", "descriptive"]
 merged["is_empirical"] = merged["full_text"].apply(
     lambda txt: find_key_words(is_empirical, txt)
 )
-merged.to_excel("/Users/zhushangkai/Desktop/winsorization/AER_2022_articles_and_before/All_AER_articles.xlsx")
+merged.to_excel("/Users/zhushangkai/Desktop/winsorization_data/AER_2022_articles_and_before/All_AER_articles.xlsx")
 
 cols_to_keep = ["item_id", "using_winsorization", "is_empirical","published_date", "ithaka_doi"]
 
@@ -78,6 +78,6 @@ winsorized = (
 )
 
 winsorized.to_excel(
-    "/Users/zhushangkai/Desktop/winsorization/AER_2022_articles_and_before/All_AER_articles_winsorized.xlsx",
+    "/Users/zhushangkai/Desktop/winsorization_data/AER_2022_articles_and_before/All_AER_articles_winsorized.xlsx",
     index=False,
 )
