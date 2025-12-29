@@ -97,6 +97,7 @@ def get_pdf(df, save_dir):
             if os.path.exists(file_path):
                 df.at[idx, "local_path"] = file_path
                 print("Already exists:", file_path)
+                idx = idx + 1
                 continue
             else:
                 with page.expect_download() as d:
@@ -107,11 +108,12 @@ def get_pdf(df, save_dir):
                 download.save_as(file_path)
 
                 df.at[idx, "local_path"] = file_path
+                idx = idx + 1
                 print("Saved:", file_path)
-            idx +=1
+
 
         browser.close()
-
+    print(df)
     return df
 
 def chunk_df(df, chunk_size):
@@ -147,10 +149,10 @@ def full_process(sgml_directory, pdf_directory, output_file_path,
 
         all_results.append(df_chunk)
 
-        # save intermediate progress
-        temp_out = output_file_path.replace(".xlsx", f"_chunk{k}.xlsx")
-        df_chunk.to_excel(temp_out, index=False)
-        print(f"Saved intermediate results to {temp_out}")
+        # # save intermediate progress
+        # temp_out = output_file_path.replace(".xlsx", f"_chunk{k}.xlsx")
+        # df_chunk.to_excel(temp_out, index=False)
+        # print(f"Saved intermediate results to {temp_out}")
 
         # cooldown between chunks (VERY important for AER)
         if k < len(df_chunks):
@@ -160,16 +162,17 @@ def full_process(sgml_directory, pdf_directory, output_file_path,
     # recombine
     final_df = pd.concat(all_results, ignore_index=True)
     final_df.to_excel(output_file_path, index=False)
-    print(f"\n✅ Final output written to {output_file_path}")
+    print(f"Final output written to {output_file_path}")
 
 
+if __name__ == "__main__":
+    # Automatically extract pdf
+    full_process("/Users/zhushangkai/Desktop/winsorization_data/AER_2023_sgml",
+             "/Users/zhushangkai/Desktop/winsorization_data/AER_2023_articles",
+             "/Users/zhushangkai/Desktop/winsorization_data/AER_2023_whole_lists.xlsx")
 
-# full_process("/Users/zhushangkai/Desktop/winsorization_data/AER_2023_sgml",
-#              "/Users/zhushangkai/Desktop/winsorization_data/AER_2023_articles",
-#              "/Users/zhushangkai/Desktop/winsorization_data/AER_2023_whole_lists.xlsx")
-
-full_process("/Users/zhushangkai/Desktop/winsorization_data/AER_2024_sgml",
-             "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_articles_new",
+    full_process("/Users/zhushangkai/Desktop/winsorization_data/AER_2024_sgml",
+             "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_articles",
              "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_whole_lists.xlsx")
 
 

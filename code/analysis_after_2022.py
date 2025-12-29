@@ -118,51 +118,63 @@ def batch_extract_pdf_dir(in_dir: str | Path, input_excel_path,
 #                       "/Users/zhushangkai/Desktop/seasonal_liquidity/AER_2024/whole_list.xlsx",
 #                       "/Users/zhushangkai/Desktop/seasonal_liquidity/AER_2024/whole_list_automatic_labled_use_trimmed_winsored_drop.xlsx")
 
-# def analysis_pdf(input_excel, output_excel):
-#     df = pd.read_excel(input_excel)
-#     for col in ["using_winsorization", "using_regression"]:
-#         if col not in df.columns:
-#             df[col] = pd.NA
-#
-#     for idx, pdf_link in df['local_path'].items():
-#         if pd.isna(pdf_link) or not pdf_link:
-#             continue
-#
-#         text = extract_text_from_pdf(pdf_link)
-#         text = remove_references(text)
-#
-#
-#         use_winsorization = find_key_words(
-#             ["winsorization", "winsorized", "winsorizing", "winsor", "winsorisation", "trim", "drop"],
-#             text,
-#         )
-#         use_regression = find_key_words(
-#             ["regression", "correlation"],
-#             text,
-#         )
-#
-#
-#         df.at[idx, "using_winsorization"] = use_winsorization
-#         df.at[idx, "using_regression"] = use_regression
-#
-#     columns_to_keep = ['doi', 'pdf_url','local_path', 'using_winsorization', 'using_regression']
-#     df[columns_to_keep].to_excel(output_excel, index=False)
-#
-# # example call
-# # analysis_pdf(
-# #     "/Users/zhushangkai/Desktop/seasonal_liquidity/AER_2023/whole_lists.xlsx",
-# #     "/Users/zhushangkai/Desktop/seasonal_liquidity/AER_2023/check_winsorized.xlsx",
-# # )
+def analysis_pdf(input_excel, output_excel):
+    df = pd.read_excel(input_excel)
+    for col in ["using_winsorization", "using_regression", "is_empirical"]:
+        if col not in df.columns:
+            df[col] = pd.NA
 
-df = pd.read_excel("/Users/zhushangkai/Desktop/seasonal_liquidity/AER_2024/aer_2024_all_papers.xlsx")
+    for idx, pdf_link in df['local_path'].items():
+        if pd.isna(pdf_link) or not pdf_link:
+            continue
+
+        text = extract_text_from_pdf(pdf_link)
+        text = remove_references(text)
 
 
-df_trim = df[df["using_winsorization_trimming"] == 1].copy()
+        use_winsorization = find_key_words(
+            ["winsorization", "winsorized", "winsorizing", "winsor", "winsorisation", "trim"],
+            text,
+        )
+        use_regression = find_key_words(
+            ["regression", "correlation"],
+            text,
+        )
 
-# quick sanity check
-print(df_trim.shape)
-print(df_trim[["title", "using_winsorization_trimming"]].head())
-out_path = "/Users/zhushangkai/Desktop/seasonal_liquidity/AER_2024/aer_2024_winsor_trim_only.xlsx"
-df_trim.to_excel(out_path, index=False)
+        is_empirical = find_key_words(
+            ["data"],
+            text
+        )
+
+
+        df.at[idx, "using_winsorization"] = use_winsorization
+        df.at[idx, "using_regression"] = use_regression
+        df.at[idx, "is_empirical"] = is_empirical
+
+    # columns_to_keep = ['doi', 'pdf_url','local_path', 'using_winsorization', 'using_regression']
+    df.to_excel(output_excel, index=False)
+
+if __name__ == "__main__":
+
+    analysis_pdf(
+    "/Users/zhushangkai/Desktop/winsorization_data/AER_2023_whole_lists.xlsx",
+    "/Users/zhushangkai/Desktop/winsorization_data/aer_2023_all_papers.xlsx",
+    )
+
+    analysis_pdf(
+    "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_whole_lists.xlsx",
+    "/Users/zhushangkai/Desktop/winsorization_data/aer_2024_all_papers.xlsx",
+    )
+
+# df = pd.read_excel("/Users/zhushangkai/Desktop/seasonal_liquidity/AER_2024/aer_2024_all_papers.xlsx")
+#
+#
+# df_trim = df[df["using_winsorization_trimming"] == 1].copy()
+#
+# # quick sanity check
+# print(df_trim.shape)
+# print(df_trim[["title", "using_winsorization_trimming"]].head())
+# out_path = "/Users/zhushangkai/Desktop/seasonal_liquidity/AER_2024/aer_2024_winsor_trim_only.xlsx"
+# df_trim.to_excel(out_path, index=False)
 
 
