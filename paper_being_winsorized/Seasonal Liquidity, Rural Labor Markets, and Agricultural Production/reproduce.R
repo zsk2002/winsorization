@@ -9,7 +9,7 @@ library(broom)
 library(haven)
 library(tidyverse)
 library(marginaleffects)
-household_panel_final <- read_dta("Desktop/seasonal_liquidity/cleaned_stuff/paper_being_winsorized/Seasonal Liquidity, Rural Labor Markets, and Agricultural Production/119649-V1/Data/Analysis/household_panel_final.dta")
+household_panel_final <- read_dta("Desktop/winsorized_data/paper_being_winsorized/Seasonal Liquidity, Rural Labor Markets, and Agricultural Production/119649-V1/Data/Analysis/household_panel_final.dta")
 View(household_panel_final)
 
 base_controls <- c(
@@ -48,7 +48,7 @@ create_percentile <- function(data, results, qs = 90:99, na.rm = TRUE, quantile_
   df
 }
 
-df <- read_dta("119649-V1/Data/Analysis/household_panel_final.dta")
+df <- read_dta("Desktop/winsorized_data/paper_being_winsorized/Seasonal Liquidity, Rural Labor Markets, and Agricultural Production/119649-V1/Data/Analysis/household_panel_final.dta")
 df <- create_percentile(df, results)
 # # 99 % percentile directly input by the author
 # max(na.omit(df_year_1$work_hours))

@@ -3,11 +3,12 @@ library(dplyr)      # data wrangling
 library(fixest)     # regressions with FE + clustered SEs
 library(tidyverse)
 # table 2a
-compustat_ready <-  read_dta("~/Desktop/seasonal_liquidity/cleaned_stuff/paper_being_winsorized/Market Power and Innovation in the Intangible Economy/AER/data/analysis/compustat_ready.dta")
+compustat_ready <-  read_dta("~/Desktop/winsorization_data/paper_being_winsorized/Market Power and Innovation in the Intangible Economy/AER/data/analysis/compustat_ready.dta")
 compu_filter_year <- compustat_ready %>% 
   filter(year %in% c(2010, 2012, 2013, 2014, 2015))
 
-itspend <- read_dta("~/Desktop/seasonal_liquidity/cleaned_stuff/paper_being_winsorized/Market Power and Innovation in the Intangible Economy/AER/data/analysis/hartehanks/itspend_20102016_firmlevel.dta")
+itspend <-  read_dta("~/Desktop/winsorization_data/paper_being_winsorized/Market Power and Innovation in the Intangible Economy/AER/data/analysis/hartehanks/itspend_20102016_firmlevel.dta")
+
 df_soft <- inner_join(
   compu_filter_year,
   itspend |> select(gvkey, year, budget_software_firm),
@@ -407,8 +408,8 @@ ggplot(z_df, aes(x = per, y = z, color = spec)) +
 
 
 ### table 3
-compustat_ready <- read_dta("~/Desktop/seasonal_liquidity/cleaned_stuff/paper_being_winsorized/Market Power and Innovation in the Intangible Economy/AER/data/analysis/compustat_ready.dta")
-itspend <- read_dta("~/Desktop/seasonal_liquidity/cleaned_stuff/paper_being_winsorized/Market Power and Innovation in the Intangible Economy/AER/data/analysis/hartehanks/itspend_20102016_firmlevel.dta")
+compustat_ready <- read_dta("~/Desktop/winsorization_data/paper_being_winsorized/Market Power and Innovation in the Intangible Economy/AER/data/analysis/compustat_ready.dta")
+itspend <-  read_dta("~/Desktop/winsorization_data/paper_being_winsorized/Market Power and Innovation in the Intangible Economy/AER/data/analysis/hartehanks/itspend_20102016_firmlevel.dta")
 data3 <-inner_join(
   compustat_ready,
   itspend,  # if you only want budget_software_firm: itspend |> select(gvkey, year, budget_software_firm)
@@ -712,11 +713,11 @@ ggplot(z_df, aes(x = per, y = z, color = spec)) +
 
 
 ######## Table 4
-compu <- read_dta("~/Desktop/seasonal_liquidity/cleaned_stuff/paper_being_winsorized/Market Power and Innovation in the Intangible Economy/AER/data/analysis/compustat_ready.dta")
+compu <- read_dta("~/Desktop/winsorization_data/paper_being_winsorized/Market Power and Innovation in the Intangible Economy/AER/data/analysis/compustat_ready.dta")
 compu <- compu |> filter(!is.na(fixedcosts_1_w))
 compu <- compu |>
   filter(year %in% c(2010, 2012, 2013, 2014, 2015))
-itspend <- read_dta("~/Desktop/seasonal_liquidity/cleaned_stuff/paper_being_winsorized/Market Power and Innovation in the Intangible Economy/AER/data/analysis/hartehanks/itspend_20102016_firmlevel.dta")
+itspend <- read_dta("~/Desktop/winsorization_data/paper_being_winsorized/Market Power and Innovation in the Intangible Economy/AER/data/analysis/hartehanks/itspend_20102016_firmlevel.dta")
 data4 <- inner_join(
   compu,
   itspend,  # if you only need budget_software_firm: itspend |> select(gvkey, year, budget_software_firm)
