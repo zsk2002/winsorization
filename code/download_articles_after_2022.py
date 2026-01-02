@@ -58,7 +58,7 @@ def get_pdf_urls(df):
 
 def remove_front_matter(df):
     # remove the paper without an abstract
-    df = df[df['abstract'].notna() & (df['abstract'].str.strip() != '')]
+    # df = df[df['abstract'].notna() & (df['abstract'].str.strip() != '')]
     df = df[df['document_type'] == "Articles"]
     return df
 

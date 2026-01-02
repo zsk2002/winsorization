@@ -26,6 +26,18 @@ def find_key_words(key_words, text: str) -> int:
     t = text.lower()
     return int(any(kw.lower() in t for kw in key_words))
 
+def find_key_words_conditioned(condition_words: list, key_words: list, text: str) -> int:
+    if not isinstance(text, str):
+        return 0
+
+    t = text.lower()
+
+    for cw in condition_words:
+        if cw.lower() in t and any(kw.lower() in t for kw in key_words):
+            return 1
+
+    return 0
+
 
 def check_winsorization_and_empirical(input_excel, output_excel):
     df = pd.read_excel(input_excel)
@@ -49,10 +61,23 @@ def check_winsorization_and_empirical(input_excel, output_excel):
             text,
         )
 
-        is_empirical = find_key_words(
+        is_empirical = find_key_words_conditioned(
             ["data"],
+            ["descriptive", "relationship", "regression", "coefficient","design", "administrative",
+                        "survey", "summary statistics"],
             text
         )
+
+        # is_empirical = find_key_words(
+        #     ["data", "descriptive", "relationship"],
+        #     text
+        # )
+
+        # is_empirical = find_key_words(
+        #     ["data", "descriptive", "regression", "coefficient","design", "administrative"],
+        #     text
+        # )
+
         df.at[idx, "using_winsorization"] = use_winsorization
         df.at[idx, "using_regression"] = use_regression
         df.at[idx, "is_empirical"] = is_empirical
@@ -65,10 +90,20 @@ if __name__ == "__main__":
     "/Users/zhushangkai/Desktop/winsorization_data/aer_2023_all_papers.xlsx",
     )
 
-    check_winsorization_and_empirical(
-    "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_whole_lists.xlsx",
-    "/Users/zhushangkai/Desktop/winsorization_data/aer_2024_all_papers.xlsx",
-    )
+    # check_winsorization_and_empirical(
+    # "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_whole_lists.xlsx",
+    # "/Users/zhushangkai/Desktop/winsorization_data/aer_2024_all_papers.xlsx",
+    # )
+
+    # check_winsorization_and_empirical(
+    # "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_whole_lists.xlsx",
+    # "/Users/zhushangkai/Desktop/winsorization_data/aer_2024_all_papers_2.xlsx",
+    # )
+
+    # check_winsorization_and_empirical(
+    #     "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_whole_lists.xlsx",
+    #     "/Users/zhushangkai/Desktop/winsorization_data/aer_2024_all_papers_3.xlsx",
+    # )
 
 # df = pd.read_excel("/Users/zhushangkai/Desktop/seasonal_liquidity/AER_2024/aer_2024_all_papers.xlsx")
 #
