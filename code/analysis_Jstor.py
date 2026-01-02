@@ -64,6 +64,7 @@ merged["using_winsorization"] = merged["full_text"].apply(
 )
 
 is_empirical = ["regression", "methods", "Empirical Analysis", "descriptive"]
+
 merged["is_empirical"] = merged["full_text"].apply(
     lambda txt: find_key_words(is_empirical, txt)
 )
