@@ -53,7 +53,7 @@ def check_winsorization_and_empirical(input_excel, output_excel):
         text = remove_references(text)
 
         use_winsorization = find_key_words(
-            ["winsorization", "winsorized", "winsorizing", "winsor", "winsorisation", "trim"],
+            ["winsorization", "winsorized", "winsorizing", "winsor", "winsorisation", "trimmed", "trimming"],
             text,
         )
         use_regression = find_key_words(

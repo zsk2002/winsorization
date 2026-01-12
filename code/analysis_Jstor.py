@@ -57,16 +57,39 @@ def find_key_words(key_words, text) -> int:
     t = text.lower()
     return int(any(kw.lower() in t for kw in key_words))
 
+def find_key_words_conditioned(condition_words: list, key_words: list, text: str) -> int:
+    if isinstance(text, list):
+        text = " ".join(str(part) for part in text)
+    elif not isinstance(text, str):
+        if text is None:
+            text = ""
+        else:
+            text = str(text)
+    if not isinstance(text, str):
+        return 0
+
+    t = text.lower()
+
+    for cw in condition_words:
+        if cw.lower() in t and any(kw.lower() in t for kw in key_words):
+            return 1
+    return 0
+
 using_winsorization = ["winsorization", "winsorized", "winsorizing", "winsor", "trimmed", "trimming",]  # example, replace with your own
 
 merged["using_winsorization"] = merged["full_text"].apply(
     lambda txt: find_key_words(using_winsorization , txt)
 )
 
-is_empirical = ["regression", "methods", "Empirical Analysis", "descriptive"]
+
+
+
 
 merged["is_empirical"] = merged["full_text"].apply(
-    lambda txt: find_key_words(is_empirical, txt)
+    lambda txt: find_key_words_conditioned(['data'],
+                                           ["descriptive", "relationship", "regression", "coefficient", "design", "administrative",
+     "survey", "summary statistics"] ,
+                                           txt)
 )
 merged.to_excel("/Users/zhushangkai/Desktop/winsorization_data/AER_2022_articles_and_before/All_AER_articles.xlsx")
 
