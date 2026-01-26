@@ -1,36 +1,26 @@
 library(readxl)
 library(tidyverse)
-aer_2024_automated <- read_excel("Desktop/winsorization_data/aer_2024_all_papers.xlsx")
-aer_2024_manual <- read_excel("Desktop/winsorization_data/aer_2024_previously_manually_checked/aer_2024_all_papers copy.xlsx")
-
-merged <- aer_2024_automated %>% 
-  left_join(aer_2024_manual, 
-            by = "doi",
-            suffix = c("_auto", "_manual"))
-
-merged_comp <- merged %>% 
-  select(title_auto, doi,is_empirical_auto, is_empirical_2)
-
-percent_unmatched <- length(which(merged_comp$is_empirical_auto != merged_comp$is_empirical_2))/ nrow(merged_comp)
-percent_unmatched  
-
-confusion <- table(
-  Manual = merged_comp$is_empirical_2,
-  Auto   = merged_comp$is_empirical_auto
-)
-confusion
-# Comment: Many non-empirical are treated as empirical
-
 aer_2024_automated <- read_excel("Desktop/winsorization_data/aer_2024_all_papers_2.xlsx")
 aer_2024_manual <- read_excel("Desktop/winsorization_data/aer_2024_previously_manually_checked/aer_2024_all_papers copy.xlsx")
 
+
 merged <- aer_2024_automated %>% 
   left_join(aer_2024_manual, 
             by = "doi",
             suffix = c("_auto", "_manual"))
+colnames(merged)
+
+# check 2024
+(length(which(merged$is_empirical_1 !=merged$is_empirical)))
+(length(which(merged$is_empirical_2 !=merged$is_empirical)))
+(length(which(merged$using_winsorization_1!=merged$using_winsorization_trimming)))
+(length(which(merged$using_winsorization_2 !=merged$using_winsorization_trimming)))
+
+
 
 merged_comp <- merged %>% 
-  select(title_auto, doi,is_empirical_auto,  is_empirical_2)
+  select(title_auto, is_empirical_auto, is_empirical_2, is_empirical_manual, 
+         using_winsorization, using_winsorization_2, using_winsorization_trimming)
 
 percent_unmatched <- length(which(merged_comp$is_empirical_auto != merged_comp$is_empirical_2))/ nrow(merged_comp)
 percent_unmatched  
@@ -41,43 +31,13 @@ confusion <- table(
 )
 confusion
 
-aer_2024_automated <- read_excel("Desktop/winsorization_data/aer_2024_all_papers_3.xlsx")
-aer_2024_manual <- read_excel("Desktop/winsorization_data/aer_2024_previously_manually_checked/aer_2024_all_papers copy.xlsx")
-
-merged <- aer_2024_automated %>% 
-  left_join(aer_2024_manual, 
-            by = "doi",
-            suffix = c("_auto", "_manual"))
-
-merged_comp <- merged %>% 
-  select(title_auto, doi,is_empirical_auto, is_empirical_3)
-
-percent_unmatched <- length(which(merged_comp$is_empirical_auto != merged_comp$is_empirical_2))/ nrow(merged_comp)
-percent_unmatched  
-
-confusion <- table(
-  Manual = merged_comp$is_empirical_3,
-  Auto   = merged_comp$is_empirical_auto
-)
-confusion
 
 
-aer_2023_automated <- read_excel("Desktop/winsorization_data/aer_2023_all_papers.xlsx")
-aer_2023_manual <- read_excel("Desktop/winsorization_data/aer_2023_manually_checked/aer_2023_all_papers_manually_checked.xlsx")
+## check 1918
+AER_1918_chat <- read_excel("Desktop/winsorization_data/AER_1918_chat.xlsx")
+(length(which(AER_1918_chat$is_empirical_1 != AER_1918_chat$is_empirical_chatgpt)))
+(length(which(AER_1918_chat$is_empirical_2 != AER_1918_chat$is_empirical_chatgpt)))
+(length(which(AER_1918_chat$using_winsorization_1!= AER_1918_chat$using_winsorization_chatgpt)))
+(length(which(AER_1918_chat$using_winsorization_2!= AER_1918_chat$using_winsorization_chatgpt)))
 
-merged <- aer_2023_automated %>% 
-  left_join(aer_2023_manual, 
-            by = "doi",
-            suffix = c("_auto", "_manual"))
 
-merged_comp <- merged %>% 
-  select(title_auto, doi,is_empirical_auto, is_empirical_manual)
-
-percent_unmatched <- length(which(merged_comp$is_empirical_auto != merged_comp$is_empirical_manual))/ nrow(merged_comp)
-percent_unmatched  
-
-confusion <- table(
-  Manual = merged_comp$is_empirical_manual,
-  Auto   = merged_comp$is_empirical_auto
-)
-confusion
