@@ -75,9 +75,18 @@ if __name__ == "__main__":
     # "/Users/zhushangkai/Desktop/winsorization_data/aer_2024_all_papers.xlsx",
     # )
 
+    # check_winsorization_and_empirical(
+    # "/Users/zhushangkai/Desktop/winsorization_data/AER_2023_whole_lists.xlsx",
+    # "/Users/zhushangkai/Desktop/winsorization_data/aer_2023_all_papers_2.xlsx",
+    # )
+    #
+    # check_winsorization_and_empirical(
+    # "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_whole_lists.xlsx",
+    # "/Users/zhushangkai/Desktop/winsorization_data/aer_2024_all_papers_2.xlsx",
+    # )
     check_winsorization_and_empirical(
-    "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_whole_lists.xlsx",
-    "/Users/zhushangkai/Desktop/winsorization_data/aer_2024_all_papers_2.xlsx",
+    "/Users/zhushangkai/Desktop/winsorization_data/AER_2025_whole_lists.xlsx",
+    "/Users/zhushangkai/Desktop/winsorization_data/aer_2025_all_papers_5.xlsx",
     )
 
     # check_winsorization_and_empirical(
