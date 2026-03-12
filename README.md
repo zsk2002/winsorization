@@ -25,3 +25,20 @@ The code folder contains 5 work
     - The reproduce.R in the folder contains the reproduced code
     - the plot folder contains the plots that showing the percentile of winsorization is choosen to maximize the significance level
   
+  - way of checking for winsorization:
+
+    - check the following tuple of words or regex in a sentence: [("winsorization", "%"), ("winsorized", "%"), ("winsorizing", "%"), ("winsor", "%"),
+         ("trimmed", "%"), ("trimming", "%"), ("winsorization", "percent"), ("winsorized", "percent"),
+         ("winsorizing", "percent"), ("winsor", "percent"), ("trimmed", "percent"), ("trimming", "percent"),
+         ("winsorized", r"\b\d+\b", second_regex), ("winsorizing", r"\b\d+\b", second_regex),
+         (r"\btrimmed\b", r"\b\d+\b", first_regex, second_regex), (r"\btrimming\b", r"\b\d+\b", first_regex, second_regex),
+        ("winsorize", r"\b\d+\b", second_regex), (r"\btrim\b", r"\b\d+\b", first_regex, second_regex),
+                       ("winsorizing", "extreme"), ("trimming", "extreme"), ("winsorized", "extreme"),
+                       ("trimmed", "extreme"), ("winsorizing", "outlier"), ("winsorized", "outlier"),
+                       ("trimmed", "outlier"), ("trimming", "outlier")
+         ] 
+    
+  - way of checking for empirical:
+    -  check the following tuple of words or regex in a sentence: [("data", "descriptive"), ("data", "administrative"), ("data", "survey"), ("data", "summary statistics"),
+           ("data", "table"), ("data", "figure")]
+  

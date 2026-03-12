@@ -59,16 +59,17 @@ if __name__ == "__main__":
     np.random.seed(123)
     alpha = 0.05
     # df = 2
-    pareto_shape = 1.5
-
+    pareto_shape = 2.5
+    delta = 0.2
     n_rep = 1000
     winsorization_percentile = [1]
 
     sample_size_list = [20, 50, 100, 200, 300, 400, 500, 1000, 2000]
 
 
-    size_matrix = np.zeros(shape=(len(sample_size_list), len(winsorization_percentile)))
-    unwinsorized_size_matrix = np.zeros(shape=(len(sample_size_list), len(winsorization_percentile)))
+    power_matrix = np.zeros(shape=(len(sample_size_list), len(winsorization_percentile)))
+    unwinsorized_power_matrix = np.zeros(shape=(len(sample_size_list), len(winsorization_percentile)))
+
 
     for j in range(len(sample_size_list)):
         n = sample_size_list[j]
@@ -86,8 +87,8 @@ if __name__ == "__main__":
             for r in range(n_rep):
                 # X = np.random.standard_t(df=df, size=n)
                 # dist = t(df = df)
-                X = pareto.rvs(b=pareto_shape, size=n)
-
+                X = pareto.rvs(b=pareto_shape, loc = delta, size=n)
+                # X = X + delta
                 dist = pareto(pareto_shape)
                 X_win = winsorize(X, limits=[p, p])
 
@@ -99,13 +100,8 @@ if __name__ == "__main__":
                 upper = b_hat
 
                 # true_mean = 0
-                true_mean = pareto.mean(b = pareto_shape)
-
-
+                # true_mean = pareto.mean(b = pareto_shape)
                 true_mean = winsorized_mean(dist, lower_value = lower, upper_value = upper)
-
-
-
 
                 if p > 0:
                     a = dist.ppf(p)
@@ -113,7 +109,6 @@ if __name__ == "__main__":
                     population_mean = winsorized_mean(dist, lower_value=a, upper_value=b)
                 else:
                     population_mean = dist.mean()
-
 
 
                 score = (np.mean(X_win) - true_mean) / (np.std(X_win) / np.sqrt(n))
@@ -135,8 +130,8 @@ if __name__ == "__main__":
                 reject[r] = rej
                 unwinsorized_reject[r] = unwinsorized_rej
 
-            size_matrix[j, i] = np.mean(reject)
-            unwinsorized_size_matrix[j, i] = np.mean(unwinsorized_reject)
+            power_matrix[j, i] = np.mean(reject)
+            unwinsorized_power_matrix[j, i] = np.mean(unwinsorized_reject)
 
     out_dir = "plot"  # folder to save into
     os.makedirs(out_dir, exist_ok=True)
@@ -146,24 +141,24 @@ if __name__ == "__main__":
 
         plt.figure(figsize=(10, 10))
 
-        plt.plot(sample_size_list, unwinsorized_size_matrix[:, i], marker="o", label="Unwinsorized")
-        plt.plot(sample_size_list, size_matrix[:, i], marker="s", label="Winsorized")
-        plt.axhline(alpha, linestyle="--", color="black", label="Nominal α")
+        plt.plot(sample_size_list, unwinsorized_power_matrix[:, i], marker="o", label="Unwinsorized")
+        plt.plot(sample_size_list, power_matrix[:, i], marker="s", label="Winsorized")
+        # plt.axhline(alpha, linestyle="--", color="black", label="Nominal α")
 
-        plt.ylabel("Empirical size")
+        plt.ylabel("Power")
         plt.xlabel("Sample size n")
-        plt.title(f"CLT t-test for Pareto({pareto_shape}), p={win_p}%, α={alpha}")
+        plt.title(f"CLT t-test Power for Pareto({pareto_shape}) delta ({delta}), p={win_p}%, α={alpha}")
 
         plt.legend()
         plt.grid(True)
         plt.tight_layout()
 
         # --- SAVE (before show) ---
-        fname = f"clt_ttest_Pareto {pareto_shape}_p{win_p}_alpha{alpha}.png"
+        fname = f"clt_ttest_Power_Pareto_{pareto_shape}_delta_{delta}_p{win_p}_alpha{alpha}.png"
         path = os.path.join(out_dir, fname)
         plt.savefig(path, dpi=300, bbox_inches="tight")  # dpi for quality
 
-        fname_base = f"clt_ttest_Pareto_{pareto_shape}_p{win_p}_alpha{alpha}"
+        fname_base = f"clt_ttest_Power_Pareto_{pareto_shape}_delta_{delta}_p{win_p}_alpha{alpha}"
         png_path = os.path.join(out_dir, fname_base + ".png")
         pdf_path = os.path.join(out_dir, fname_base + ".pdf")
 
