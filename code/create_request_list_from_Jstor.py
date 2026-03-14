@@ -23,19 +23,17 @@ with (
         if data.get("is_part_of") == journal_title:
             item_ids.append(data["item_id"])
             full.append(data)
-
-
     print()  # Move to the next line after processing
 
-# Write the item IDs to a file
-output_file = "/Users/zhushangkai/Desktop/winsorization_data/AER_2022_articles_and_before/american_economic_review.txt"
+# Write the item IDs to a file, only ids
+output_file = "AER_2022_articles_and_before/ids_to_Jstor.txt"
 with open(output_file, "w") as f:
     for item_id in item_ids:
         f.write(f"{item_id}\n")
 print("Output file:" + output_file)
 
-# Write all information of selected articles to a file
-output_file_2 = "/Users/zhushangkai/Desktop/winsorization_data/AER_2022_articles_and_before/AER_all_articles.txt"
+# Write all information of selected articles to a file full information
+output_file_2 = "AER_2022_articles_and_before/AER_all_articles.txt"
 with open(output_file_2, "w") as f:
     for everything in full:
         f.write(f"{everything}\n")

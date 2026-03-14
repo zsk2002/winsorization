@@ -11,6 +11,24 @@ def read_sgml_file(file_path):
         soup = BeautifulSoup(content, 'html.parser')
         return soup
 
+def get_pdf_urls(df):
+    df['pdf_url'] = "https://pubs.aeaweb.org/doi/pdfplus/" + df['doi'].astype(str)
+    return df
+
+def remove_front_matter(df):
+    # remove the paper without an abstract
+    # df = df[df['abstract'].notna() & (df['abstract'].str.strip() != '')]
+    df = df[df['document_type'] == "Articles"]
+    return df
+
+
+def extract_from_sgml(sgml_directory):
+    df = read_all_sgml_file(sgml_directory)
+    df = get_pdf_urls(df)
+    df = remove_front_matter(df)
+    return df
+
+
 def parse_articles(soup):
     articles_data = []
     
@@ -40,6 +58,7 @@ def parse_articles(soup):
 
     return pd.DataFrame(articles_data)
 
+
 def read_all_sgml_file(dir_path):
     all_dfs = []
 
@@ -52,22 +71,6 @@ def read_all_sgml_file(dir_path):
         all_dfs.append(df)
     return pd.concat(all_dfs, ignore_index=True)
 
-def get_pdf_urls(df):
-    df['pdf_url'] = "https://pubs.aeaweb.org/doi/pdfplus/" + df['doi'].astype(str)
-    return df
-
-def remove_front_matter(df):
-    # remove the paper without an abstract
-    # df = df[df['abstract'].notna() & (df['abstract'].str.strip() != '')]
-    df = df[df['document_type'] == "Articles"]
-    return df
-
-
-def extract_from_sgml(sgml_directory):
-    df = read_all_sgml_file(sgml_directory)
-    df = get_pdf_urls(df)
-    df = remove_front_matter(df)
-    return df
 
 def clean_title(t):
     t = t.lower()
@@ -110,8 +113,6 @@ def get_pdf(df, save_dir):
                 df.at[idx, "local_path"] = file_path
                 idx = idx + 1
                 print("Saved:", file_path)
-
-
         browser.close()
     print(df)
     return df
@@ -148,11 +149,6 @@ def full_process(sgml_directory, pdf_directory, output_file_path,
             df_chunk = df_chunk.assign(pdf_path=chunk_result)
 
         all_results.append(df_chunk)
-
-        # # save intermediate progress
-        # temp_out = output_file_path.replace(".xlsx", f"_chunk{k}.xlsx")
-        # df_chunk.to_excel(temp_out, index=False)
-        # print(f"Saved intermediate results to {temp_out}")
 
         # cooldown between chunks (VERY important for AER)
         if k < len(df_chunks):

@@ -38,7 +38,6 @@ def find_key_words_conditioned(condition_words: list, key_words: list, text: str
         return 0
 
     t = text.lower()
-
     for cw in condition_words:
         if cw.lower() in t and any(kw.lower() in t for kw in key_words):
             return 1
@@ -56,36 +55,20 @@ def find_key_words_in_one_sentence(words_pair:list, text:str):
         return 0
 
     t = re.split(r"\.\s+(?=[A-Z1-9])", text)
-
-
     for sentence in t:
-
         sentence_l = sentence.lower()
         for pair in words_pair:
             first = pair[0]
             second = pair[1]
             if len(pair) == 2:
                 if first.lower() in sentence_l and second.lower() in sentence_l:
-                    # print("---------------------------")
-                    #
-                    # print(sentence_l)
-                    # print(first)
-                    # print(second)
                     return 1
             elif len(pair) == 3:
                 if first.lower() in sentence_l:
                     if re.search(str(second), sentence_l):
-                        # print("---------------------------")
-                        # print(sentence_l)
-                        # print(first)
-                        # print(second)
                         return 1
             elif len(pair) == 4:
                 if re.search(str(first), sentence_l) and re.search(str(second), sentence_l):
-                    # print("---------------------------")
-                    # print(sentence_l)
-                    # print(first)
-                    # print(second)
                     return 1
 
 
