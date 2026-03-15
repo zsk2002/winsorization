@@ -6,7 +6,7 @@ import ast
 from analysis_helper import *
 
 # it is the file from the Jstor contains the paper before 2022
-path = Path("winsorization_data/raw data/2b51d731-4b8e-44eb-b7ba-3ca54f2e406c.jsonl.gz") # fixed
+path = Path("/Users/zhushangkai/Desktop/winsorization_data/raw data/2b51d731-4b8e-44eb-b7ba-3ca54f2e406c.jsonl.gz") # fixed
 
 rows = []
 with gzip.open(path, "rt", encoding="utf-8") as f:
@@ -22,7 +22,7 @@ all_jstor_articles_before_2022 = all_jstor_articles_before_2022.rename(
 )
 
 
-Jstor_id = "winsorization_data/AER_2022_articles_and_before/AER_all_articles.txt" # fixed, IDS TO SENT TO JSTOR
+Jstor_id = "/Users/zhushangkai/Desktop/winsorization_data/AER_2022_articles_and_before/AER_all_articles.txt" # fixed, IDS TO SENT TO JSTOR
 
 records = []
 with open(Jstor_id, "r", encoding="utf-8") as f:
@@ -49,12 +49,6 @@ merged = pd.merge(
 #     lambda text: find_key_words(using_winsorization, text)
 # )
 
-# most recent way of winsorization
-merged['using_winsorization'] = merged["full_text"].apply(
-    lambda text: find_key_words_in_one_sentence(
-        CHECK_WINSORIZATION, text)
-)
-
 # original way of checking is empirical
 # merged["is_empirical_1"] = merged["full_text"].apply(
 #     lambda text: find_key_words_conditioned(['data'],
@@ -63,13 +57,19 @@ merged['using_winsorization'] = merged["full_text"].apply(
 #                                             text)
 # )
 
+
+merged['using_winsorization'] = merged["full_text"].apply(
+    lambda text: find_key_words_in_one_sentence(CHECK_WINSORIZATION, text)
+)
+
 merged["is_empirical"] = merged["full_text"].apply(
-    lambda text: find_key_words_in_one_sentence(
-        CHECK_WINSORIZATION,text))
+    lambda text: find_key_words_in_one_sentence(CHECK_EMPIRICAL, text)
+)
+
 
 # filter out the articles that is not research articles
 merged = merged[merged["content_subtype"] == "research-article"]
 merged = merged.sort_values(by="published_date")
-merged.to_excel("winsorization_data/AER_2022_articles_and_before/All_AER_articles.xlsx") # to change, output file
+merged.to_excel("/Users/zhushangkai/Desktop/winsorization_data/AER_2022_articles_and_before/All_AER_articles.xlsx") # to change, output file
 
 

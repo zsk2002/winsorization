@@ -73,7 +73,7 @@ theory_test_population_mean_at_sample_quantile_power.py:
     - T test for the population at the sampled winsorized level, measured by power.
 
 time_series_plot.R:
-    - produce a propotion of winsorization over the years
+    - produce a plot for proportion of using winsorization over the years
 
 time_series_plot_for_presenting:
     - csv file for each years being winsorized

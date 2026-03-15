@@ -7,7 +7,7 @@ def muller_function(n, tail):
 if __name__ == "__main__":
     np.random.seed(123)
 
-    #plot the function in Remark 1
+    #population_mean_sample_quantile the function in Remark 1
     eps = 1e-3
     tail = np.linspace(1 / 3 + eps, 1 / 2 - eps, 100)
     n = np.linspace(50, 10000, 100)

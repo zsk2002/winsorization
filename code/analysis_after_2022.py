@@ -1,6 +1,8 @@
 from pathlib import Path
 import pandas as pd
+from PyPDF2 import PdfReader
 from analysis_helper import *
+
 
 def extract_text_from_pdf(pdf_path):
     pdf_path = Path(pdf_path)
@@ -42,17 +44,17 @@ def check_winsorization_and_empirical(input_excel, output_excel):
 if __name__ == "__main__":
     # input file is the output file from download_articles_after_2022.py
     check_winsorization_and_empirical(
-    "AER_2023_whole_lists.xlsx", # to change
-    "aer_2023_all_papers.xlsx", # to change
+    "/Users/zhushangkai/Desktop/winsorization_data/AER_2023_whole_lists.xlsx", # to change
+    "/Users/zhushangkai/Desktop/winsorization_data/aer_2023_all_papers.xlsx", # to change
     )
 
     check_winsorization_and_empirical(
-    "AER_2024_whole_lists.xlsx", # to change
-    "aer_2024_all_papers.xlsx", # to change
+    "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_whole_lists.xlsx", # to change
+    "/Users/zhushangkai/Desktop/winsorization_data/aer_2024_all_papers.xlsx", # to change
     )
     check_winsorization_and_empirical(
-    "AER_2025_whole_lists.xlsx", # to change
-    "aer_2025_all_papers.xlsx", # to change
+    "/Users/zhushangkai/Desktop/winsorization_data/AER_2025_whole_lists.xlsx", # to change
+    "/Users/zhushangkai/Desktop/winsorization_data/aer_2025_all_papers.xlsx", # to change
     )
 
 

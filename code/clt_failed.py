@@ -37,7 +37,7 @@ if __name__ == "__main__":
         emp_size[i] = reject.mean()
         print(f"n={curr_sample_size:5d}  size={emp_size[i]:.4f}")
 
-    # # plot
+    # # population_mean_sample_quantile
     plt.figure(figsize=(7, 5))
     plt.plot(n, emp_size, marker="o")
     plt.axhline(alpha, linestyle="--", color="black")

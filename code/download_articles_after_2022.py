@@ -166,12 +166,12 @@ if __name__ == "__main__":
     full_process("/Users/zhushangkai/Desktop/winsorization_data/AER_2023_sgml",
              "/Users/zhushangkai/Desktop/winsorization_data/AER_2023_articles",
              "/Users/zhushangkai/Desktop/winsorization_data/AER_2023_whole_lists.xlsx")
-    #
-    # full_process("/Users/zhushangkai/Desktop/winsorization_data/AER_2024_sgml",
-    #          "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_articles",
-    #          "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_whole_lists.xlsx")
 
-    # full_process("/Users/zhushangkai/Desktop/winsorization_data/AER_2025_sgml",
-    #          "/Users/zhushangkai/Desktop/winsorization_data/AER_2025_articles",
-    #          "/Users/zhushangkai/Desktop/winsorization_data/AER_2025_whole_lists.xlsx")
+    full_process("/Users/zhushangkai/Desktop/winsorization_data/AER_2024_sgml",
+             "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_articles",
+             "/Users/zhushangkai/Desktop/winsorization_data/AER_2024_whole_lists.xlsx")
+
+    full_process("/Users/zhushangkai/Desktop/winsorization_data/AER_2025_sgml",
+             "/Users/zhushangkai/Desktop/winsorization_data/AER_2025_articles",
+             "/Users/zhushangkai/Desktop/winsorization_data/AER_2025_whole_lists.xlsx")
 
