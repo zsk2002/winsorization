@@ -27,55 +27,65 @@ way of checking for empirical:
   -  check the following tuple of words or regex in a sentence: [("data", "descriptive"), ("data", "administrative"), ("data", "survey"), ("data", "summary statistics"),
          ("data", "table"), ("data", "figure")]
   
+In the code folder:
+    - analysis_after_2022.py:
+        - How to use:
+            - Run check_winsorization_and_empirical(input_file, output_file)
+            - input_file = file_produced from the download_articles_after_2022.py
+        - output_file = file you want to created
+        - full text is extracted from the pdf using PdfReader
 
-analysis_after_2022.py:
-    - How to use:
-        - Run check_winsorization_and_empirical(input_file, output_file)
-        - input_file = file_produced from the download_articles_after_2022.py
-    - output_file = file you want to created
-    - full text is extracted from the pdf using PdfReader
+    - analysis_helper.py:
+        - 3 different ways of searching words
+        - the constant contains the words and regex to check for using_winsorization and is_empirical respectively
 
-analysis_helper.py:
-    - 3 different ways of searching words
-    - the constant contains the words and regex to check for using_winsorization and is_empirical respectively
+    - analysis_Jstor.py:
+        - Change the output file directory and run the file 
+        - analyze the paper before 2023 and back to 1900s
+        - output All_AER_articles.xlsx
 
-analysis_Jstor.py:
-    - Change the output file directory and run the file 
-    - analyze the paper before 2023 and back to 1900s
-    - output All_AER_articles.xlsx
+    - create_request_list_from_Jstor.py:
+        - create a list of ids that send to the Jstor: ids_to_Jstor.txt
+        - create a set contains all information: AER_all_articles.txt
+        - How to Use:
+            - change the name of the output file and run the file
+        - uses the json file from https://www.jstor.org/ta-support and create an item list that 
+        sent back to Jstor, then we would have full text data
 
-create_request_list_from_Jstor.py:
-    - create a list of ids that send to the Jstor: ids_to_Jstor.txt
-    - create a set contains all information: AER_all_articles.txt
-    - How to Use:
-        - change the name of the output file and run the file
-    - uses the json file from https://www.jstor.org/ta-support and create an item list that 
-    sent back to Jstor, then we would have full text data
+    - download_articles_after_2022.py is to download all the paper from AER after 2022 
+        - Need to download the metadata from AER website: https://www.aeaweb.org/journals/articles/sgml?journal=1
+        - Automated the downloading through opening each of the url and manually click download.
 
-- download_articles_after_2022.py is to download all the paper from AER after 2022 
-  - Need to download the metadata from AER website: https://www.aeaweb.org/journals/articles/sgml?journal=1
-  - Automated the downloading through opening each of the url and manually click download.
+    - clt_failed.py:
+        - example of the failure of Central limit theorem based t test when it has heavy tail distribution.
 
-clt_failed.py:
-    - example of the failure of Central limit theorem based t test when it has heavy tail distribution.
+    - function_in_muller_remark_1.py:
+        - reproduced the function in https://www.princeton.edu/~umueller/sumrates.pdf.
 
-function_in_muller_remark_1.py:
-    - reproduced the function in https://www.princeton.edu/~umueller/sumrates.pdf.
+    - theory_test_population_mean_at_population_quantile_using_density_estimation.py:
+        - Using density estimation and bootstrapped methods for estimating the adjusted standard error for CLT T test.
+        - For Pareto and T distribution.
 
-theory_test_population_mean_at_population_quantile_using_density_estimation.py:
-    - Using density estimation and bootstrapped methods for estimating the adjusted standard error for CLT T test.
-    - For Pareto and T distribution.
+    - theory_test_population_mean_at_sample_quantile.py:
+        - T test for the population at the sampled winsorized level.
 
-theory_test_population_mean_at_sample_quantile.py:
-    - T test for the population at the sampled winsorized level.
+    - theory_test_population_mean_at_sample_quantile_power.py:
+        - T test for the population at the sampled winsorized level, measured by power.
 
-theory_test_population_mean_at_sample_quantile_power.py:
-    - T test for the population at the sampled winsorized level, measured by power.
+    - time_series_plot.R:
+        - produce a plot for proportion of using winsorization over the years
+    
+    - non_parametric folder:
+        - contains the plot generated from theory_test_population_mean_at_population_quantile_using_density_estimation.py
+    
+    - population_mean_sample_quantile:
+        - contains the plot for theory_test_population_mean_at_sample_quantile.py
+    
+    - power:
+        - contains the plot for theory_test_population_mean_at_sample_quantile_power.py
 
-time_series_plot.R:
-    - produce a plot for proportion of using winsorization over the years
-
-time_series_plot_for_presenting:
+time_series_plot_for_presenting folder:
     - csv file for each years being winsorized
     - scatter plot for presentation
     - code for producing the plot
+    
