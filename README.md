@@ -1,5 +1,5 @@
 # winsorization
-paper_being_winsorized directory contains all the replicated paper that using winsorization
+- paper_being_winsorized directory contains all the replicated paper that using winsorization
   - Seasonal Liquidity, Rural Labor Markets, and Agricultural Production is from 2020
     - the reproduce.R in the folder contains the reporduced code
 
@@ -11,7 +11,7 @@ paper_being_winsorized directory contains all the replicated paper that using wi
     - The reproduce.R in the folder contains the reproduced code
     - the plot folder contains the plots that showing the percentile of winsorization is choosen to maximize the significance level
 
-way of checking for winsorization:
+- way of checking for winsorization:
   - check the following tuple of words or regex in a sentence: [("winsorization", "%"), ("winsorized", "%"), ("winsorizing", "%"), ("winsor", "%"),
        ("trimmed", "%"), ("trimming", "%"), ("winsorization", "percent"), ("winsorized", "percent"),
        ("winsorizing", "percent"), ("winsor", "percent"), ("trimmed", "percent"), ("trimming", "percent"),
@@ -23,11 +23,11 @@ way of checking for winsorization:
                      ("trimmed", "outlier"), ("trimming", "outlier")
        ] 
 
-way of checking for empirical:
+- way of checking for empirical:
   -  check the following tuple of words or regex in a sentence: [("data", "descriptive"), ("data", "administrative"), ("data", "survey"), ("data", "summary statistics"),
          ("data", "table"), ("data", "figure")]
   
-In the code folder:
+- In the code folder:
     - analysis_after_2022.py:
         - How to use:
             - Run check_winsorization_and_empirical(input_file, output_file)
@@ -84,7 +84,7 @@ In the code folder:
     - power:
         - contains the plot for theory_test_population_mean_at_sample_quantile_power.py
 
-time_series_plot_for_presenting folder:
+- time_series_plot_for_presenting folder:
     - csv file for each years being winsorized
     - scatter plot for presentation
     - code for producing the plot

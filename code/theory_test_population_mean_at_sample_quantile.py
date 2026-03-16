@@ -26,7 +26,7 @@ if __name__ == "__main__":
     np.random.seed(123)
     ################################### pareto distribution
     alpha = 0.05
-    pareto_shape = 1.5 # using pareto distribution
+    pareto_shape = 2.5 # using pareto distribution
     n_rep = 1000
     winsorization_percentile = list(range(1, 11))
     sample_size_list = [20, 50, 100, 200, 300, 400, 500, 1000, 2000]
