@@ -71,7 +71,7 @@ if __name__ == "__main__":
             size_matrix[j, i] = np.mean(reject)
             unwinsorized_size_matrix[j, i] = np.mean(unwinsorized_reject)
 
-    out_dir = "population_mean_sample_quantile"  # folder to save into
+    out_dir = "../../theory_plot/population_mean_sample_quantile"  # folder to save into
     os.makedirs(out_dir, exist_ok=True)
 
     for i in range(len(winsorization_percentile)):
@@ -150,7 +150,7 @@ if __name__ == "__main__":
                 size_matrix[j, i] = np.mean(reject)
                 unwinsorized_size_matrix[j, i] = np.mean(unwinsorized_reject)
 
-        out_dir = "population_mean_sample_quantile"  # folder to save into
+        out_dir = "../../theory_plot/population_mean_sample_quantile"  # folder to save into
         os.makedirs(out_dir, exist_ok=True)
 
         for i in range(len(winsorization_percentile)):

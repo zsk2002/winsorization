@@ -25,7 +25,7 @@ with (
             full.append(data)
     print()  # Move to the next line after processing
 
-# Write the item IDs to a file, only ids
+# Write the item IDs to a file, only ids to be sent to Jstor
 output_file = "AER_2022_articles_and_before/ids_to_Jstor.txt"
 with open(output_file, "w") as f:
     for item_id in item_ids:

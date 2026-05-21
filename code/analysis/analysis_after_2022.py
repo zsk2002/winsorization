@@ -41,6 +41,7 @@ def check_winsorization_and_empirical(input_excel, output_excel):
 
     df.to_excel(output_excel, index=False)
 
+
 if __name__ == "__main__":
     # input file is the output file from download_articles_after_2022.py
     check_winsorization_and_empirical(

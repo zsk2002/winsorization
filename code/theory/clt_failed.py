@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import t
 from scipy import integrate
 
- # comment out is for t distribution
+ # commented out is for t distribution
 if __name__ == "__main__":
     np.random.seed(123)
     alpha = 0.05

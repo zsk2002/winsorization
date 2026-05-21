@@ -14,6 +14,7 @@ CHECK_WINSORIZATION = [("winsorization", "%"), ("winsorized", "%"), ("winsorizin
 CHECK_EMPIRICAL =  [("data", "descriptive"), ("data", "administrative"), ("data", "survey"), ("data", "summary statistics"),
            ("data", "table"), ("data", "figure")]
 
+
 def find_key_words(key_words, text) -> int:
     if isinstance(text, list):
         text = " ".join(str(part) for part in text)
@@ -25,6 +26,7 @@ def find_key_words(key_words, text) -> int:
 
     t = text.lower()
     return int(any(kw.lower() in t for kw in key_words))
+
 
 def find_key_words_conditioned(condition_words: list, key_words: list, text: str) -> int:
     if isinstance(text, list):
@@ -42,6 +44,7 @@ def find_key_words_conditioned(condition_words: list, key_words: list, text: str
         if cw.lower() in t and any(kw.lower() in t for kw in key_words):
             return 1
     return 0
+
 
 def find_key_words_in_one_sentence(words_pair:list, text:str):
     if isinstance(text, list):
@@ -70,6 +73,4 @@ def find_key_words_in_one_sentence(words_pair:list, text:str):
             elif len(pair) == 4:
                 if re.search(str(first), sentence_l) and re.search(str(second), sentence_l):
                     return 1
-
-
     return 0

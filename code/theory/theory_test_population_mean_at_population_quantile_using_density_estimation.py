@@ -187,7 +187,7 @@ if __name__ == "__main__":
             unwinsorized_size_matrix[j, i] = np.mean(unwinsorized_reject)
             bootstrap_size_matrix[j, i] = np.mean(bootstrap_reject)
 
-    out_dir = "non_parametric"  # folder to save into
+    out_dir = "../../theory_plot/non_parametric_way"  # folder to save into
     os.makedirs(out_dir, exist_ok=True)
 
     for i in range(len(winsorization_percentile)):
@@ -217,7 +217,7 @@ if __name__ == "__main__":
         # plt.show()  # optional if you still want to display
         # plt.close()       # better than show() if you’re running lots of plots
 
-        ############################### Student T ########################
+        ############################### Student T ########################q
         np.random.seed(123)
         alpha = 0.05
         df = 2
@@ -286,7 +286,7 @@ if __name__ == "__main__":
                 unwinsorized_size_matrix[j, i] = np.mean(unwinsorized_reject)
                 bootstrap_size_matrix[j, i] = np.mean(bootstrap_reject)
 
-        out_dir = "non_parametric"  # folder to save into
+        out_dir = "../../theory_plot/non_parametric_way"  # folder to save into
         os.makedirs(out_dir, exist_ok=True)
 
         for i in range(len(winsorization_percentile)):
