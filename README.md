@@ -23,23 +23,29 @@ In the code folder:
                      ("winsorizing", "extreme"), ("trimming", "extreme"), ("winsorized", "extreme"),
                      ("trimmed", "extreme"), ("winsorizing", "outlier"), ("winsorized", "outlier"),
                      ("trimmed", "outlier"), ("trimming", "outlier")]
+                     
         - Final way of checking for empirical:
             - check the following tuple of words or regex in a sentence: [("data", "descriptive"), ("data", "administrative"), ("data", "survey"), ("data", "summary statistics"),
             ("data", "table"), ("data", "figure")]
+            
         - analysis_after_2022.py:
                 - Run check_winsorization_and_empirical(input_file, output_file)
                 - input_file = file_produced from the download_articles_after_2022.py
             - output_file = file you want to created
             - full text is extracted from the pdf using PdfReader
+            
         - analysis_helper.py:
             - 3 different ways of searching words
             - the constant contains the words and regex to check for using_winsorization and is_empirical respectively
+            
         - analysis_Jstor.py:
             - Change the output file directory and run the file 
             - analyze the paper before 2023 and back to 1900s
             - output All_AER_articles.xlsx
+            
         - time_series_plot.R:
             - produce a plot for proportion of using winsorization over the years
+            
         - checjk_empirical.R:
             - check if different ways of checking for empirical aligns with each other
     
