@@ -74,20 +74,18 @@ In the code folder:
         - theory_test_population_mean_at_sample_quantile_power.py:
             - T test for the population at the sampled winsorized level, measured by power.
 
-
 paper_being_winsorized directory contains all the replicated paper that using winsorization
 
   - Seasonal Liquidity, Rural Labor Markets, and Agricultural Production is from 2020
     - the reproduce.R in the folder contains the reporduced code
-
+    
   - Market Power and Innovation in the Intangible Economy is from 2024
     - the reproduce.R in the folder contains the reproduced code
-
+    
   - The Economic Impact of Depression Treatment in India- Evidence from Community-Based Provision of Pharmacotherapy
     is from 2024
     - The reproduce.R in the folder contains the reproduced code
     - the plot folder contains the plots that showing the percentile of winsorization is choosen to maximize the significance level
-
 
   In the theory_plot folder, we have the plots generated from the simulations
 
